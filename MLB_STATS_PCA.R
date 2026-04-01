@@ -13,7 +13,7 @@ df <- df %>%
   arrange(desc(xwoba)) %>%  #打席数500以上でxwobaがtop50
   head(50) %>% 
   select(-c(player_id, year, pa)) %>% 
-  column_to_rownames(var = "last_name, first_name") #パイプの中でrownames(df)する時の書き方。tibble使用
+  column_to_rownames(var = "last_name, first_name") 
   
 
 fviz_nbclust(scale(df), kmeans, method = "silhouette") 
@@ -24,11 +24,11 @@ km_res$centers
 
 res_pca <- prcomp(df, scale. = TRUE) 
 summary(res_pca)
-res_pca$rotation[, 1:2] #主成分ベクトル。要はPCという新しい飲み物を作るとすると各数値が、そのレシピを作る材料(比率)
+res_pca$rotation[, 1:2] 
 # 因子負荷量
 loadings <- res_pca$rotation %*% diag(res_pca$sdev)
 colnames(loadings) <- paste0("PC", 1:ncol(loadings))
-print(loadings) #　因子負荷量。要はその主成分(PC)と元の変数の間の相関係数
+print(loadings) 
 
 
 if (res_pca$rotation["barrel_batted_rate", 1] < 0) {
@@ -46,9 +46,9 @@ cluster_labels <- c(
 )
 
 fviz_pca_biplot(res_pca,
-                label = c("ind", "var"),  # 選手名と矢印名を両方表示           
-                habillage = as.factor(km_res$cluster), # K-meansのグループで色分け
-                addEllipses = F,          # グループを円で囲む
+                label = c("ind", "var"),             
+                habillage = as.factor(km_res$cluster),
+                addEllipses = F,          
                 repel = TRUE,
                 pointsize = 1.5,           
                 labelsize = 3,
